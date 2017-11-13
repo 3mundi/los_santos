@@ -2,15 +2,18 @@ require 'los_santos/version'
 require 'yaml'
 
 module LosSantos
-  ALLOWED_FORMAT = [String, Date, DateTime].freeze
+  ALLOWED_CLASS = [String, Date, Time, DateTime].freeze
 
-  # Usage: LosSantos.name_day [\'dd-mm\']
-  def self.name_day(date_string = Time.now.strftime('%d-%m'))
-    unless ALLOWED_FORMAT.include? date_string.class
-      raise ArgumentError, 'Only String and Date are allowed'
+  def self.name_day(date = Time.now)
+    begin
+      date = Date.strptime(date, '%d-%m') if date.class == String
+    rescue ArgumentError
+      raise ArgumentError, "String usage: LosSantos.name_day 'dd-mm'"
+    end
+    unless ALLOWED_CLASS.include? date.class
+      raise ArgumentError, 'Only String, Date, Time and DateTime are allowed'
     end
     data = YAML.load_file('lib/los_santos/data/fr.yml')
-    date_split = date_string.split('-')
-    data[date_split[1].to_i][date_split[0].to_i]
+    data[date.month][date.day]
   end
 end
