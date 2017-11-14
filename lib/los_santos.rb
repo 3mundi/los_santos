@@ -26,7 +26,8 @@ module LosSantos
   end
 
   def self.load_data
-    YAML.load_file("#{`bundle show los_santos`}/lib/los_santos/data/fr.yml")
+    file_path = File.join(File.dirname(__FILE__), 'los_santos/data/fr.yml')
+    YAML.load_file(file_path)
   end
 
   private_class_method :parse_string, :load_data
