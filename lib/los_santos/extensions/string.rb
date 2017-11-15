@@ -1,5 +1,4 @@
 # implement method name_day? to the class String
-require 'rubygems'
 require 'active_support/inflector'
 
 class String
